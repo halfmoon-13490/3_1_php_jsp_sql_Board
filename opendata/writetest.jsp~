@@ -1,0 +1,28 @@
+<%@page contentType="text/html;charset=utf-8" %>
+<%@page import="java.io.*"%>
+<%
+  String fileName = "fwrite.txt"; //생성할 파일명
+  String fileDir = "C:";   //파일을 생성할 디렉토리
+  String filePath = request.getRealPath(fileDir) + "/"; //파일을 생성할 전체경로
+  filePath += fileName;  //생성할 파일명을 전체경로에 결합
+  out.println("Written: "+filePath+"<br>");
+  try{
+   File f = new File(filePath);   // 파일객체생성
+   if(!f.exists()) f.createNewFile(); //파일생성
+   // 파일쓰기
+   FileWriter fw = new FileWriter(filePath); //파일쓰기객체생성
+   String data = "파일에다 아무거나 적습니다.\n이것은 두번째 줄인데 아무거나 적습니다\n";
+   fw.write(data); //파일에다 작성
+   fw.write("<b>추가로 굵은 글씨체 줄 입력</b>\n");
+   fw.close(); //파일핸들 닫기
+   // 파일읽기
+   FileReader fr = new FileReader(filePath); //파일읽기객체생성
+   BufferedReader br = new BufferedReader(fr); //버퍼리더객체생성
+   String line = null;
+   while((line=br.readLine())!=null){ //라인단위 읽기
+    out.println(line + "<br>");
+   }
+  }catch (IOException e) {
+    System.out.println(e.toString()); //에러 발생시 메시지 출력
+  }
+%>
